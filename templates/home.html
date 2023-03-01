@@ -4,5 +4,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Homepage</h1>
-{% endblock content %}
+<!-- This is the content of the home page -->
+<h1 align="center">paralegal</h1>
+
+<!-- Add a search box -->
+
+<form action="{% url 'search' %}" method="GET">
+    <input type="text" name="q" placeholder="Search">
+    <input type="submit" value="Search">
+
+    {% endblock content %}
