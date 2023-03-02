@@ -8,6 +8,7 @@ import pandas as pd
 
 import os
 
+
 if os.path.exists("db.sqlite3"):
     print("db.sqlite3 exists, deleting it...")
     os.remove("db.sqlite3")
