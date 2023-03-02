@@ -15,7 +15,7 @@ if os.path.exists("db.sqlite3"):
 
 conn = sqlite3.connect("db.sqlite3")
 
-col_names = ["date", "casenumber", "nameofparties", "link"]
+col_names = ["date", "standard_casenumber", "nameofparties", "link"]
 
 df = pd.read_csv("full_table_of_cases.csv")
 
