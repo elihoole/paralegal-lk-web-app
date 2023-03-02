@@ -9,4 +9,11 @@
 
 <!-- Add a search box -->
 
+<ul>
+    {% for case in all_cases_list %}
+    <li>{{ case.date}} | {{ case.casenumber }} | <a href="{{ case.link }}">link</a></li>
+    <br>
+    {% endfor %}
+</ul>
+
 {% endblock content %}

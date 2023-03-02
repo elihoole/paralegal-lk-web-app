@@ -2,8 +2,12 @@ from django.db import models
 
 
 # Create your models here.
-class Post(models.Model):
-    text = models.TextField()
+class Case(models.Model):
+    id = models.AutoField(primary_key=True)
+    casenumber = models.CharField(max_length=100, default="")
+    date = models.CharField(max_length=100, default="")
+    nameofparties = models.CharField(max_length=100, default="")
+    link = models.CharField(max_length=100, default="")
 
-    def __str__(self):
-        return self.text[:50]
+    def __unicode__(self):
+        return self.casenumber
