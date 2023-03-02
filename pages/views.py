@@ -7,11 +7,15 @@ from .models import Case
 # Create your views here.
 
 
-class HomePageView(ListView):
-    model = Case
+class HomePageView(TemplateView):
     template_name = "home.html"
-    context_object_name = "all_cases_list"
 
 
 class AboutPageView(TemplateView):
     template_name = "about.html"
+
+
+class CaseListView(ListView):
+    model = Case
+    template_name = "caselist.html"
+    context_object_name = "all_cases_list"
