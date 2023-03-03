@@ -1,0 +1,34 @@
+<!-- templates/judgementlist.html -->
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% block content %}
+<!-- This is the content of the home page -->
+
+
+<form method="get">
+    {{ filter_form.as_p }}
+    <button type="submit">Filter</button>
+</form>
+
+
+
+{% if year and month %}
+<h2>Judgements issued by the Supreme court in month {{ month }}, {{ year }} </h2>
+{% else %}
+<h2>Judgements issued by the Supreme Court of Sri Lanka (2009-2023)</h2>
+{% endif %}
+
+
+{% if all_judgements_list %}
+<ul>
+    {% for judgement in all_judgements_list %}
+    <li>{{ judgement.date}} | {{ judgement.standard_casenumber }} | <a href="{{ judgement.link }}">link</a></li>
+    <br>
+    {% endfor %}
+</ul>
+
+{% else %}
+<p>No results found.</p>
+{% endif %}
+{% endblock content %}

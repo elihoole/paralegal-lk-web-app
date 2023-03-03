@@ -29,6 +29,6 @@ print(df.head(5))
 
 print(df.keys())
 
-df.to_sql("pages_case", conn, if_exists="replace", index=False)
+df.to_sql("pages_judgement", conn, if_exists="replace", index=False)
 
 conn.close()
