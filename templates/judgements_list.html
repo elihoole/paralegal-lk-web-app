@@ -8,13 +8,15 @@
 
 <form method="get">
     {{ filter_form.as_p }}
-    <button type="submit">Filter</button>
+    <button type="submit">filter</button>
 </form>
 
 
 
 {% if year and month %}
 <h2>Judgements issued by the Supreme Court of Sri Lanka in {{ month }}, {{ year }} </h2>
+{% elif year and not month %}
+<h2>Judgements issued by the Supreme Court of Sri Lanka in {{ year }} </h2>
 {% else %}
 <h2>Judgements issued by the Supreme Court of Sri Lanka (2009-2023)</h2>
 {% endif %}
@@ -23,7 +25,8 @@
 {% if all_judgements_list %}
 <ul>
     {% for judgement in all_judgements_list %}
-    <li>{{ judgement.date}} | {{ judgement.standard_casenumber }} | <a href="{{ judgement.link }}">link</a></li>
+    <li>{{ judgement.date}} | {{ judgement.standard_casenumber }} | <a href="{{ judgement.link }}">link</a> |
+        {{ judgement.in_the_matter_of }} </li>
     <br>
     {% endfor %}
 </ul>

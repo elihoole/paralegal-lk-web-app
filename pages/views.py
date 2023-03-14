@@ -4,16 +4,50 @@ from django.views.generic import ListView
 from django.db.models.functions import ExtractYear, ExtractMonth
 from django.db.models import Count
 from .models import Judgement
+from django.db.models import Q
+
 
 from django.shortcuts import render
-from .forms import JudgementsFilterForm
+from .forms import JudgementsFilterForm, JudgementsSearchForm
 
+from . import bm25
+import json
 
 # Create your views here.
 
 
 class HomePageView(TemplateView):
+    model = Judgement
     template_name = "home.html"
+    context_object_name = "search_judgements_list"
+
+    with open("pos_inv_ind.json", "r") as f:
+        data = json.load(f)
+        dlt = bm25.createDocTable(data)
+        # print("dlt", dlt)
+
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get("search_query")
+        print("query", query)
+        if query:
+            results = bm25.search(query, self.data, self.dlt)[:20]
+            queryset = Judgement.objects.filter(Q(primary_key__in=results))
+        else:
+            queryset = Judgement.objects.none()
+        return render(
+            request,
+            "home.html",
+            {
+                "query": query,
+                "results": queryset,
+                "search_form": JudgementsSearchForm(),
+            },
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = kwargs.get("search_form", JudgementsSearchForm())
+        return context
 
 
 class AboutPageView(TemplateView):
@@ -26,38 +60,45 @@ class JudgementListView(ListView):
     context_object_name = "all_judgements_list"
 
     def get(self, request, *args, **kwargs):
-        year = request.GET.get("year")
-        month = request.GET.get("month")
+        year_ = request.GET.get("year")
+        month_ = request.GET.get("month")
 
-        if year and month:
+        month_keys = {
+            "January": 1,
+            "February": 2,
+            "March": 3,
+            "April": 4,
+            "May": 5,
+            "June": 6,
+            "July": 7,
+            "August": 8,
+            "September": 9,
+            "October": 10,
+            "November": 11,
+            "December": 12,
+        }
+
+        if year_ and not month_:
+            queryset = (
+                self.get_queryset()
+                .annotate(year=ExtractYear("date"))
+                .filter(year=year_)
+            )
+        elif year_ and month_:
             queryset = (
                 self.get_queryset()
                 .annotate(year=ExtractYear("date"), month=ExtractMonth("date"))
-                .filter(year=year, month=month)
+                .filter(year=year_, month=month_keys[month_])
             )
         else:
             queryset = self.get_queryset()
 
-        month_names = {
-            1: "January",
-            2: "February",
-            3: "March",
-            4: "April",
-            5: "May",
-            6: "June",
-            7: "July",
-            8: "August",
-            9: "September",
-            10: "October",
-            11: "November",
-            12: "December",
-        }
         self.object_list = queryset
         context = self.get_context_data(
             object_list=queryset,
             filter_form=JudgementsFilterForm(),
-            year=year if year != None else None,
-            month=month_names[int(month)] if month != None else None,
+            year=year_ if year_ != None else None,
+            month=month_ if month_ != None else None,
         )
         return self.render_to_response(context)
 
@@ -65,22 +106,3 @@ class JudgementListView(ListView):
         context = super().get_context_data(**kwargs)
         context["filter_form"] = kwargs.get("filter_form", JudgementsFilterForm())
         return context
-
-
-def search_form(request):
-    return render(request, "search_form.html")
-
-
-def judgements_search(request):
-    form = JudgementsFilterForm(request.GET)
-
-    if form.is_valid():
-        year = form.cleaned_data["year"]
-        month = form.cleaned_data["month"]
-        judgements = Judgement.objects.filter(date__year=year, date__month=month)
-
-    else:
-        judgements = Judgement.objects.all()
-    return render(
-        request, "judgements_search.html", {"form": form, "judgements": judgements}
-    )

@@ -15,11 +15,16 @@ if os.path.exists("db.sqlite3"):
 
 conn = sqlite3.connect("db.sqlite3")
 
-col_names = ["date", "standard_casenumber", "nameofparties", "link"]
 
-df = pd.read_csv("full_table_of_cases.csv")
+df = pd.read_csv("judgements-with-matter-no-duplicates.csv")
 
-df = df[col_names]
+df = df.drop(columns=["casenumber", "hyphenated_date", "nameofparties"])
+
+df = df.rename(columns={"in-the-matter-of": "in_the_matter_of"})
+
+print(df.keys())
+
+# df = df[col_names]
 
 # create a column named id and make it the index
 

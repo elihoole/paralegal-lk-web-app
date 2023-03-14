@@ -7,6 +7,27 @@
 <!-- This is the content of the home page -->
 <h1 align="center">paralegal</h1>
 
+
+<form method="get" size="100">
+    {{ search_form.as_p }}
+    <button type="submit">search</button>
+</form>
+
+
+{% if results %}
+<ul>
+    {% for judgement in results %}
+    <li>{{ judgement.date}} | {{ judgement.standard_casenumber }} | {{ judgement.in_the_matter_of }} | <a
+            href="{{ judgement.link }}">link</a>
+    </li>
+    <br>
+    {% endfor %}
+</ul>
+
+{% else %}
+<p>No results found.</p>
+{% endif %}
+
 <!-- Add a search box -->
 
 {% endblock content %}

@@ -3,8 +3,6 @@ from .views import (
     HomePageView,
     AboutPageView,
     JudgementListView,
-    search_form,
-    judgements_search,
 )
 
 urlpatterns = [
