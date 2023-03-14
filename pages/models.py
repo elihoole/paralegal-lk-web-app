@@ -1,5 +1,4 @@
 from django.db import models
-from django import forms
 
 
 # Create your models here.
@@ -14,9 +13,4 @@ class Judgement(models.Model):
         return self.standard_casenumber[:20]
 
 
-class JudgmentsFilterForm(forms.Form):
-    YEAR_CHOICES = [(str(year), str(year)) for year in range(2009, 2024)]
-    MONTH_CHOICES = [(str(month), str(month)) for month in range(1, 13)]
 
-    year = forms.ChoiceField(choices=YEAR_CHOICES)
-    month = forms.ChoiceField(choices=MONTH_CHOICES)
