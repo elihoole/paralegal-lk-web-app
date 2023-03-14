@@ -32,6 +32,9 @@ class HomePageView(TemplateView):
         if query:
             results = bm25.search(query, self.data, self.dlt)[:20]
             queryset = Judgement.objects.filter(Q(primary_key__in=results))
+            # re order queryset by results
+            queryset = sorted(queryset, key=lambda x: results.index(x.primary_key))
+
         else:
             queryset = Judgement.objects.none()
         return render(
