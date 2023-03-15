@@ -8,6 +8,9 @@ import operator
 import timeit
 import glob
 
+# import punctuations
+punctuations = string.punctuation
+
 supreme_court_cases_file_path = (
     "/Users/elijah.hoole/Documents/paralegal/cases_supreme_court"
 )
@@ -19,7 +22,9 @@ with open("primary_key_filename_dict.json", "r") as f:
 
 def clean_query(query):
     stemmer = PorterStemmer()
-    temp_list = query.strip().split(" ")
+    # remove punctuations and replace with space
+    query = query.translate(str.maketrans("", "", punctuations))
+    temp_list = query.split()
     query = " ".join([stemmer.stem(word) for word in temp_list])
     return query
 
@@ -37,9 +42,9 @@ def queryTokenFreq(query):
     query = query.lower()
     query = clean_query(query)  ## Stemming
     query_token_freq = defaultdict(int)
-    for i in set(query.strip().split(" ")):
+    for i in set(query.strip().split()):
         query_token_freq[i] = query.split(" ").count(i)
-    print(query_token_freq)
+    # print(query_token_freq)
     return query_token_freq
 
 

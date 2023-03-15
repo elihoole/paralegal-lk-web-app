@@ -8,7 +8,7 @@ from django.db.models import Q
 
 
 from django.shortcuts import render
-from .forms import JudgementsFilterForm, JudgementsSearchForm
+from .forms import JudgementsFilterForm, JudgementsSearchForm, JudgementsPDFForm
 
 from . import bm25
 import json
@@ -65,6 +65,7 @@ class JudgementListView(ListView):
     def get(self, request, *args, **kwargs):
         year_ = request.GET.get("year")
         month_ = request.GET.get("month")
+        search_link = request.GET.get("search_link")
 
         month_keys = {
             "January": 1,
@@ -96,16 +97,24 @@ class JudgementListView(ListView):
         else:
             queryset = self.get_queryset()
 
+        if search_link:
+            queryset = self.get_queryset().filter(link__icontains=search_link)
+
         self.object_list = queryset
         context = self.get_context_data(
             object_list=queryset,
             filter_form=JudgementsFilterForm(),
             year=year_ if year_ != None else None,
             month=month_ if month_ != None else None,
+            search_link_form=JudgementsPDFForm(),
+            search_link=search_link if search_link != None else None,
         )
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["filter_form"] = kwargs.get("filter_form", JudgementsFilterForm())
+        context["search_link_form"] = kwargs.get(
+            "search_link_form", JudgementsPDFForm()
+        )
         return context

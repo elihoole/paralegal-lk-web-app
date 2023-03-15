@@ -11,12 +11,18 @@
     <button type="submit">filter</button>
 </form>
 
+<form method="get" size="100">
+    {{ search_link_form.as_p }}
+    <button type="submit">search for link</button>
+</form>
 
 
 {% if year and month %}
 <h2>Judgements issued by the Supreme Court of Sri Lanka in {{ month }}, {{ year }} </h2>
 {% elif year and not month %}
 <h2>Judgements issued by the Supreme Court of Sri Lanka in {{ year }} </h2>
+{% elif search_link %}
+<h2>Result for {{ search_link }} </h2>
 {% else %}
 <h2>Judgements issued by the Supreme Court of Sri Lanka (2009-2023)</h2>
 {% endif %}

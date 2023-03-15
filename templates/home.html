@@ -15,6 +15,8 @@
 
 
 {% if results %}
+<h2>results for "{{ query }}"</h2>
+
 <ul>
     {% for judgement in results %}
     <li>{{ judgement.date}} | {{ judgement.standard_casenumber }} | {{ judgement.in_the_matter_of }} | <a

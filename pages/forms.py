@@ -28,3 +28,7 @@ class JudgementsFilterForm(forms.Form):
 
 class JudgementsSearchForm(forms.Form):
     search_query = forms.CharField(max_length=200, label="type your query here")
+
+
+class JudgementsPDFForm(forms.Form):
+    search_link = forms.URLField(max_length=200, label="enter pdf file link")
