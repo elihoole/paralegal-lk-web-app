@@ -28,8 +28,8 @@ class HomePageView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         query = request.GET.get("search_query")
-        print("query", query)
         if query:
+            print("query", query)
             results = bm25.search(query, self.data, self.dlt)[:20]
             queryset = Judgement.objects.filter(Q(primary_key__in=results))
             # re order queryset by results
@@ -37,6 +37,7 @@ class HomePageView(TemplateView):
 
         else:
             queryset = Judgement.objects.none()
+
         return render(
             request,
             "home.html",
@@ -67,21 +68,6 @@ class JudgementListView(ListView):
         month_ = request.GET.get("month")
         search_link = request.GET.get("search_link")
 
-        month_keys = {
-            "January": 1,
-            "February": 2,
-            "March": 3,
-            "April": 4,
-            "May": 5,
-            "June": 6,
-            "July": 7,
-            "August": 8,
-            "September": 9,
-            "October": 10,
-            "November": 11,
-            "December": 12,
-        }
-
         if year_ and not month_:
             queryset = (
                 self.get_queryset()
@@ -92,7 +78,7 @@ class JudgementListView(ListView):
             queryset = (
                 self.get_queryset()
                 .annotate(year=ExtractYear("date"), month=ExtractMonth("date"))
-                .filter(year=year_, month=month_keys[month_])
+                .filter(year=year_, month=month_)
             )
         else:
             queryset = self.get_queryset()

@@ -1,29 +1,21 @@
 from django import forms
+import calendar
 
 
 class JudgementsFilterForm(forms.Form):
-    YEAR_CHOICES = [("", "")] + [(str(year), str(year)) for year in range(2009, 2024)]
-    MONTH_CHOICES = [("", "")] + [
-        (str(month), str(month))
-        for month in [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ]
-    ]
+    year = forms.ChoiceField(
+        choices=[("", "")] + [(str(year), str(year)) for year in range(2009, 2024)]
+    )
+    month = forms.ChoiceField(
+        choices=[("", "")]
+        + [(str(i), month) for i, month in enumerate(calendar.month_name) if i != 0],
+        required=False,
+    )
 
+    # You can also set the label of the fields using the `label` attribute
+    year.label = "year"
+    month.label = "month"
     # print(YEAR_CHOICES, MONTH_CHOICES)
-    year = forms.ChoiceField(choices=YEAR_CHOICES)
-    month = forms.ChoiceField(choices=MONTH_CHOICES, required=False)
 
 
 class JudgementsSearchForm(forms.Form):

@@ -8,12 +8,12 @@
 
 <form method="get">
     {{ filter_form.as_p }}
-    <button type="submit">filter</button>
+    <button class="search-btn" type="submit">filter</button>
 </form>
 
 <form method="get" size="100">
     {{ search_link_form.as_p }}
-    <button type="submit">search for link</button>
+    <button class="search-btn" type="submit">search for link</button>
 </form>
 
 
@@ -29,11 +29,14 @@
 
 
 {% if all_judgements_list %}
-<ul>
+<ul class="judgements-list">
     {% for judgement in all_judgements_list %}
-    <li>{{ judgement.date}} | {{ judgement.standard_casenumber }} | <a href="{{ judgement.link }}">link</a> |
-        {{ judgement.in_the_matter_of }} </li>
-    <br>
+    <li class="judgement-item"> <span class="judgement-date">{{ judgement.date }}</span>
+        <span class="judgement-case-number">{{ judgement.standard_casenumber }}</span>
+        <a class="judgement-link" href="{{ judgement.link }}">link</a>
+        <span class="judgement-matter">{{ judgement.in_the_matter_of }}</span>
+        <br>
+    </li>
     {% endfor %}
 </ul>
 

@@ -1,11 +1,14 @@
 <!-- templates/base.html -->
-<Doctype html>
-    <header>
-        <title>Paralegal</title>
-        <a href="{% url 'home' %}">Home</a> |
-        <a href="{% url 'about' %}">About</a> |
-        <a href="{% url 'supreme_court_judgements' %}">Supreme Court Judgements</a>
-    </header>
+{% load static %}
+<!Doctype html>
+<header>
+    <title>Paralegal</title>
+    <a href="{% url 'home' %}">Home </a> |
+    <a href="{% url 'about' %}">About </a> |
+    <a href="{% url 'supreme_court_judgements' %}">Supreme Court Judgements</a>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</header>
 
-    {% block content %}
-    {% endblock content %}
+{% block content %}
+{% endblock content %}

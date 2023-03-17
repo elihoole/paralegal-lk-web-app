@@ -1,6 +1,9 @@
 import json
 from collections import defaultdict
-from nltk.stem.porter import *
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
 import re
 import string
 from math import log
@@ -10,6 +13,8 @@ import glob
 
 # import punctuations
 punctuations = string.punctuation
+ps = PorterStemmer()
+stop_words = set(stopwords.words("english"))
 
 supreme_court_cases_file_path = (
     "/Users/elijah.hoole/Documents/paralegal/cases_supreme_court"
@@ -20,13 +25,25 @@ with open("primary_key_filename_dict.json", "r") as f:
     primary_key_filename_dict = json.load(f)
 
 
+def preprocess(text):
+    # remove punctuation
+    text = text.translate(str.maketrans("", "", punctuations))
+
+    # convert to lower case
+    text = text.lower()
+    # tokenize
+    tokens = word_tokenize(text)
+    # remove stop words
+    tokens = [w for w in tokens if not w in stop_words]
+    # stem
+    tokens = [ps.stem(w) for w in tokens]
+    return tokens
+
+
 def clean_query(query):
-    stemmer = PorterStemmer()
     # remove punctuations and replace with space
-    query = query.translate(str.maketrans("", "", punctuations))
-    temp_list = query.split()
-    query = " ".join([stemmer.stem(word) for word in temp_list])
-    return query
+    tokens = preprocess(query)
+    return " ".join(tokens)
 
 
 ##Github Version of pii.json
@@ -39,7 +56,6 @@ def createDocTable(data):
 
 
 def queryTokenFreq(query):
-    query = query.lower()
     query = clean_query(query)  ## Stemming
     query_token_freq = defaultdict(int)
     for i in set(query.strip().split()):
