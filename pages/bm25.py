@@ -10,6 +10,9 @@ from math import log
 import operator
 import timeit
 import glob
+import nltk
+
+nltk.download("stopwords")
 
 # import punctuations
 punctuations = string.punctuation
