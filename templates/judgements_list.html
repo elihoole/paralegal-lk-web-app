@@ -12,10 +12,19 @@
 </form>
 
 <form method="get" size="100">
-    {{ search_link_form.as_p }}
+    <p>
+        <label for="{{ search_link_form.search_link.id_for_label }}" class="sr-only">Search for link:</label>
+        {{ search_link_form.search_link}}
+    </p>
     <button class="search-btn" type="submit">search for link</button>
 </form>
 
+<style>
+    input[type="text"]::placeholder {
+        color: #999;
+        font-size: 16px;
+    }
+</style>
 
 {% if year and month %}
 <h2>Judgements issued by the Supreme Court of Sri Lanka in {{ month }}, {{ year }} </h2>

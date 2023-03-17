@@ -19,8 +19,20 @@ class JudgementsFilterForm(forms.Form):
 
 
 class JudgementsSearchForm(forms.Form):
-    search_query = forms.CharField(max_length=200, label="type your query here")
+    from django import forms
+
+
+class JudgementsSearchForm(forms.Form):
+    search_query = forms.CharField(
+        required=True,
+        max_length=200,
+        widget=forms.TextInput(attrs={"placeholder": "Type your query here"}),
+    )
 
 
 class JudgementsPDFForm(forms.Form):
-    search_link = forms.URLField(max_length=200, label="enter pdf file link")
+    search_link = forms.URLField(
+        required=True,
+        max_length=200,
+        widget=forms.TextInput(attrs={"placeholder": "enter pdf file link"}),
+    )
