@@ -12,6 +12,8 @@ import timeit
 import glob
 import nltk
 
+nltk.data.path.append("./nltk_data/")
+
 # nltk.download("stopwords")
 
 # import punctuations
