@@ -12,12 +12,10 @@ import timeit
 import glob
 import nltk
 
-nltk.download("stopwords")
+# nltk.download("stopwords")
 
 # import punctuations
-punctuations = string.punctuation
-ps = PorterStemmer()
-stop_words = set(stopwords.words("english"))
+
 
 supreme_court_cases_file_path = (
     "/Users/elijah.hoole/Documents/paralegal/cases_supreme_court"
@@ -30,7 +28,9 @@ with open("primary_key_filename_dict.json", "r") as f:
 
 def preprocess(text):
     # remove punctuation
-    text = text.translate(str.maketrans("", "", punctuations))
+    stop_words = set(stopwords.words("english"))
+
+    text = text.translate(str.maketrans("", "", string.punctuation))
 
     # convert to lower case
     text = text.lower()
@@ -39,7 +39,7 @@ def preprocess(text):
     # remove stop words
     tokens = [w for w in tokens if not w in stop_words]
     # stem
-    tokens = [ps.stem(w) for w in tokens]
+    tokens = [PorterStemmer().stem(w) for w in tokens]
     return tokens
 
 
