@@ -9,21 +9,15 @@
 
 <form class="search-form" method="get" size="100">
     <p>
-        <label for="{{ search_form.search_query.id_for_label }}" class="sr-only">Search query:</label>
+        <label for="{{ search_form.search_query.id_for_label }}" class="sr-only">Search query</label>
         {{ search_form.search_query }}
     </p>
     <button class="search-btn" type="submit">search</button>
 </form>
 
-<style>
-    input[type="text"]::placeholder {
-        color: #999;
-        font-size: 16px;
-    }
-</style>
 
 {% if results %}
-<h2>Results for "{{ query }}"</h2>
+<h2 class="results-for">Results for "{{ query }}"</h2>
 
 <ul class="judgements-list">
     {% for judgement in results %}
@@ -39,7 +33,7 @@
 
 
 {% else %}
-<p>No results found.</p>
+<p class="no-results-found">No results found.</p>
 {% endif %}
 
 <!-- Add a search box -->

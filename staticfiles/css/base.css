@@ -1,26 +1,23 @@
 body {
+    background-color: #f3f3f3;
     font-family: 'Source Sans Pro', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
+    color: #283747;
 }
 
 header {
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #283747;
     margin-bottom: 2rem;
     display: flex;
 }
 
-header h1 a {
-    color: red;
-    text-decoration: none;
-}
-
 .header-link {
-    color: #333;
+    color: #932432;
     text-decoration: none;
     margin-right: 20px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
-    text-transform: uppercase;
+    text-transform: capitalize;
 }
 
 .nav-left {
@@ -37,8 +34,6 @@ header h1 a {
     padding: 0;
     margin: 0;
     margin-bottom: 20px;
-    /* increase the margin to 20px */
-
 }
 
 .judgement-item {
@@ -50,34 +45,34 @@ header h1 a {
 .judgement-date {
     margin-right: 10px;
     white-space: nowrap;
+}
 
+.judgement-matter {
+    font-size: 14px;
+    margin-right: 10px;
 }
 
 .judgement-case-number {
+    color: #3c1874;
     font-weight: bold;
     margin-right: 10px;
     white-space: nowrap;
-
 }
 
 .judgement-link {
     text-decoration: none;
-    color: rgb(64, 140, 187);
+    color: #de354c;
     margin-right: 10px;
 }
 
-.judgement-matter {
-    font-size: small;
-    font-style: normal;
-}
-
 .search-form {
-    background-color: #f2f2f2;
+    background-color: #e3e3e3;
     padding: 20px;
     border-radius: 10px;
 }
 
 .sr-only {
+    color: #283747;
     position: absolute;
     width: 1px;
     height: 1px;
@@ -89,11 +84,21 @@ header h1 a {
     border: 0;
 }
 
-input[type="text"]::placeholder {
-    color: #999;
-    font-size: 16px;
+label[for=id_year],
+label[for=id_month] {
+    color: #283747;
 }
 
+.no-results-found,
+.results-for {
+    color: #932432;
+    font-size: 18px;
+}
+
+input[type="text"]::placeholder {
+    color: #999;
+    font-size: 18px;
+}
 
 input[type=text],
 input[type=url],
@@ -108,7 +113,7 @@ textarea {
 }
 
 .search-btn {
-    background-color: #4CAF50;
+    background-color: #3c1874;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -117,5 +122,5 @@ textarea {
 }
 
 .search-btn:hover {
-    background-color: #45a049;
+    background-color: #3c1874;
 }

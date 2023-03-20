@@ -19,10 +19,6 @@ class JudgementsFilterForm(forms.Form):
 
 
 class JudgementsSearchForm(forms.Form):
-    from django import forms
-
-
-class JudgementsSearchForm(forms.Form):
     search_query = forms.CharField(
         required=True,
         max_length=200,

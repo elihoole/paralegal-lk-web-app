@@ -6,12 +6,15 @@
 <!-- This is the content of the home page -->
 
 
-<form method="get">
-    {{ filter_form.as_p }}
+<form class="search-form" method="get">
+    <p>
+        <label for="{{ filter_form.id_for_label }}" class="sr-only">Filter by year</label>
+        {{ filter_form.as_p }}
+    </p>
     <button class="search-btn" type="submit">filter</button>
 </form>
-
-<form method="get" size="100">
+<br>
+<form class="search-form" method="get" size="100">
     <p>
         <label for="{{ search_link_form.search_link.id_for_label }}" class="sr-only">Search for link:</label>
         {{ search_link_form.search_link}}
@@ -19,21 +22,16 @@
     <button class="search-btn" type="submit">search for link</button>
 </form>
 
-<style>
-    input[type="text"]::placeholder {
-        color: #999;
-        font-size: 16px;
-    }
-</style>
+
 
 {% if year and month %}
-<h2>Judgements issued by the Supreme Court of Sri Lanka in {{ month }}, {{ year }} </h2>
+<h2 class="results-for">Judgements issued by the Supreme Court of Sri Lanka in {{ month }}, {{ year }} </h2>
 {% elif year and not month %}
-<h2>Judgements issued by the Supreme Court of Sri Lanka in {{ year }} </h2>
+<h2 class="results-for">Judgements issued by the Supreme Court of Sri Lanka in {{ year }} </h2>
 {% elif search_link %}
-<h2>Result for {{ search_link }} </h2>
+<h2 class="results-for">Result for {{ search_link }} </h2>
 {% else %}
-<h2>Judgements issued by the Supreme Court of Sri Lanka (2009-2023)</h2>
+<h2 class="results-for">Judgements issued by the Supreme Court of Sri Lanka (2009-2023)</h2>
 {% endif %}
 
 
