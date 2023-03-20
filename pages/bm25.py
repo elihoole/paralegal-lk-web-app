@@ -28,6 +28,34 @@ with open("primary_key_filename_dict.json", "r") as f:
     primary_key_filename_dict = json.load(f)
 
 
+def clean_up_case_text(text):
+    """
+    This function cleans up text by removing punctuation, numbers, and stopwords.
+    It also lemmatizes and stems the text.
+    """
+    # Remove punctuation
+    # text = re.sub(r"[^\w\s]", "", text)
+
+    # Remove newlines
+    # text = re.sub(r"\n\n", "\n", text)
+
+    # when there are two or more newlines, replace with one newline
+    text = re.sub(r"(\n\s+){2,}", "", text)
+    text = re.sub(r"\n\n", "\n", text)
+    text = re.sub(r"\x0c", "", text)
+
+    # replace newline charcters that are preceded and followed by alphabet or numbers with a space
+    text = re.sub(r"([a-zA-Z] *)\n( *[a-zA-Z])", r"\1 \2", text)
+
+    text = re.sub(r" {2,}", " ", text)
+
+    text = re.sub(r"(p|P)age \d+|of \d+", " ", text)
+
+    text = text.lower()
+
+    return text
+
+
 def preprocess(text):
     # remove punctuation
     stop_words = set(stopwords.words("english"))

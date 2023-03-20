@@ -8,7 +8,6 @@ import pandas as pd
 
 import os
 
-
 if os.path.exists("db.sqlite3"):
     print("db.sqlite3 exists, deleting it...")
     os.remove("db.sqlite3")
@@ -34,6 +33,24 @@ print(df.head(5))
 
 print(df.keys())
 
+
+conn = sqlite3.connect("db.sqlite3")
+
+df_text = pd.read_csv("primary_key_to_judgement_text.csv")
+
+df_text = df_text.drop(columns=["filename"])
+
+df_text = df_text.rename(columns={"text": "judgement_text"})
+
+print("df_text keys", df_text.keys())
+
+print("shape of df_text", df_text.shape, "shape of df", df.shape)
+
+df = df.merge(df_text, on="primary_key", how="inner")
+
+print("df shape after merge", df.shape)
+
 df.to_sql("pages_judgement", conn, if_exists="replace", index=False)
+
 
 conn.close()

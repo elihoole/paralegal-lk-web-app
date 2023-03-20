@@ -5,6 +5,7 @@ from django.db.models.functions import ExtractYear, ExtractMonth
 from django.db.models import Count
 from .models import Judgement
 from django.db.models import Q
+import calendar
 
 
 from django.shortcuts import render
@@ -31,7 +32,9 @@ class HomePageView(TemplateView):
         if query:
             print("query", query)
             results = bm25.search(query, self.data, self.dlt)[:20]
-            queryset = Judgement.objects.filter(Q(primary_key__in=results))
+            queryset = Judgement.objects.defer("judgement_text").filter(
+                Q(primary_key__in=results)
+            )
             # re order queryset by results
             queryset = sorted(queryset, key=lambda x: results.index(x.primary_key))
 
@@ -91,7 +94,7 @@ class JudgementListView(ListView):
             object_list=queryset,
             filter_form=JudgementsFilterForm(),
             year=year_ if year_ != None else None,
-            month=month_ if month_ != None else None,
+            month=calendar.month_name[int(month_)] if month_ != None else None,
             search_link_form=JudgementsPDFForm(),
             search_link=search_link if search_link != None else None,
         )

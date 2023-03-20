@@ -1,8 +1,10 @@
 <!-- templates/home.html -->
 <!DOCTYPE html>
 
+
 {% extends 'base.html' %}
 
+{% load judgement_tags %}
 
 {% block content %}
 <!-- This is the content of the home page -->
@@ -18,15 +20,17 @@
 
 {% if results %}
 <h2 class="results-for">Results for "{{ query }}"</h2>
-
 <ul class="judgements-list">
     {% for judgement in results %}
     <li class="judgement-item">
-        <span class="judgement-date">{{ judgement.date }}</span>
-        <span class="judgement-case-number">{{ judgement.standard_casenumber }}</span>
-        <a class="judgement-link" href="{{ judgement.link }}">link</a>
-        <span class="judgement-matter">{{ judgement.in_the_matter_of }}</span>
-        <br>
+        <div class="judgement-header">
+            <span class="judgement-date">{{ judgement.date }}</span>
+            <span class="judgement-case-number">{{ judgement.standard_casenumber }}</span>
+            <a class="judgement-link" href="{{ judgement.link }}">link</a>
+        </div>
+        <div class="judgement-body">
+            <span class="judgement-matter">{{ judgement|relevant_text:query }}</span>
+        </div>
     </li>
     {% endfor %}
 </ul>
