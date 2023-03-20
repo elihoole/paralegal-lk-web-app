@@ -12,7 +12,7 @@ header {
 }
 
 .header-link {
-    color: #932432;
+    color: #3c1874;
     text-decoration: none;
     margin-right: 20px;
     font-size: 18px;
@@ -55,7 +55,7 @@ header {
     margin-top: 10px;
     margin-bottom: 10px;
     font-style: italic;
-    border-bottom: 1px solid #de354c;
+    border-bottom: 1px solid #932432;
 }
 
 .judgement-date {
@@ -76,7 +76,7 @@ header {
 
 .judgement-link {
     text-decoration: none;
-    color: #3c1874;
+    color: #de354c;
     margin-right: 10px;
 }
 

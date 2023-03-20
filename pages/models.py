@@ -24,15 +24,26 @@ class Judgement(models.Model):
         query = bm25.clean_up_case_text(query)
 
         # use regex to get 100 characters before and after most relevant word in query
-        pattern = r"(.{0,100}" + query.strip() + r".{0,100})"
+        pattern = r"[\.\?!\n].+\s+" + query.strip() + r"\s+.+[\.\?!\n]"
 
-        matches = re.findall(pattern, self.judgement_text.lower(), re.MULTILINE)
+        matches = re.findall(pattern, self.judgement_text.lower())
 
         # get the start and end index of matches[0] in self.judgement_text
 
         if matches:
-            start = self.judgement_text.lower().find(matches[0])
-            end = start + len(matches[0])
+            sentence = matches[0]
+            start = self.judgement_text.lower().find(sentence)
+            end = start + len(sentence)
             return self.judgement_text[start:end]
         else:
-            return ""
+            query = query.split(" ")[0]
+            # use regex to get 100 characters before and after most relevant word in query
+            pattern = r"[\.\?!\n].+\s+" + query.strip() + r"\s+.+[\.\?!\n]"
+            matches = re.findall(pattern, self.judgement_text.lower())
+            if matches:
+                sentence = matches[0]
+                start = self.judgement_text.lower().find(sentence)
+                end = start + len(sentence)
+                return self.judgement_text[start:end]
+            else:
+                return ""
