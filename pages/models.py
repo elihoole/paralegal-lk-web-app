@@ -1,6 +1,7 @@
 from django.db import models
 from . import bm25
 import re
+import string
 
 
 # Create your models here.
@@ -17,11 +18,30 @@ class Judgement(models.Model):
     def __str__(self):
         return self.standard_casenumber[:20]
 
-    def get_relevant_text(self, query):
+    def get_relevant_text_main_func(self, query):
         """
         get 100 characters before and after most relevant word in query with regex
         """
+
+        if query.find("&") != -1:
+            queries = query.split("&")
+            queries = [bm25.clean_up_case_text(q).strip() for q in queries]
+
+            sub_query_rel_text = {}
+            for sub_query in queries:
+                sub_query_rel_text[sub_query] = self.get_relevant_text_from_query(
+                    sub_query
+                )
+
+            # return by concatenating the values
+            return " ".join(sub_query_rel_text.values())
+        else:
+            return self.get_relevant_text_from_query(query)
+
+    def get_relevant_text_from_query(self, query):
         query = bm25.clean_up_case_text(query)
+
+        # remove punctuation from query
 
         # use regex to get 100 characters before and after most relevant word in query
         pattern = r"[\.\?!\n].+\s+" + query.strip() + r"\s+.+[\.\?!\n]"

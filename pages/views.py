@@ -31,12 +31,12 @@ class HomePageView(TemplateView):
         query = request.GET.get("search_query")
         if query:
             print("query", query)
-            results = bm25.search(query, self.data, self.dlt)[:20]
+            results = bm25.search_main_func(query, self.data, self.dlt)
             queryset = Judgement.objects.defer("judgement_text").filter(
                 Q(primary_key__in=results)
             )
             # re order queryset by results
-            queryset = sorted(queryset, key=lambda x: results.index(x.primary_key))
+            queryset = sorted(queryset, key=lambda x: results.index(x.primary_key))[:20]
 
         else:
             queryset = Judgement.objects.none()
@@ -69,6 +69,8 @@ class JudgementListView(ListView):
     def get(self, request, *args, **kwargs):
         year_ = request.GET.get("year")
         month_ = request.GET.get("month")
+        if month_ == "":
+            month_ = None
         search_link = request.GET.get("search_link")
 
         if year_ and not month_:

@@ -18,6 +18,14 @@ nltk.data.path.append("./nltk_data/")
 
 # import punctuations
 
+stop_words = set(stopwords.words("english"))
+
+with open("legalstopwords.txt") as f:
+    legal_stop_words = f.readlines()
+    legal_stop_words = [word.strip() for word in legal_stop_words]
+
+stop_words = stop_words.union(legal_stop_words)
+
 
 supreme_court_cases_file_path = (
     "/Users/elijah.hoole/Documents/paralegal/cases_supreme_court"
@@ -58,7 +66,6 @@ def clean_up_case_text(text):
 
 def preprocess(text):
     # remove punctuation
-    stop_words = set(stopwords.words("english"))
 
     text = text.translate(str.maketrans("", "", string.punctuation))
 
@@ -115,7 +122,11 @@ def compute_K(dl, avdl):
     return k1 * ((1 - b) + (b * dl / avdl))
 
 
-def search(query, data, dlt):
+def search_main_func(query, data, dlt):
+    return search_query_bm25(query, data, dlt)
+
+
+def search_query_bm25(query, data, dlt):
     query_token_freq = queryTokenFreq(query)
 
     sum_doc = 0
